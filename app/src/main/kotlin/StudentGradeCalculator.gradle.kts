@@ -1,4 +1,4 @@
-data class Student(
+whatsdata class Student(
     val name: String,
     val score: Int?
 )
