@@ -21,5 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Leaning-Kotlin-Dart"
 include(":app")
-include(":gradecalculator")
  
