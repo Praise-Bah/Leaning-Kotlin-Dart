@@ -213,7 +213,7 @@ fun main(args: Array<String>) {
         println("\nOr enter the file path when prompted:")
         print("\nEnter input Excel file path: ")
         
-        val inputPath = readLine()?.trim()
+        val inputPath = readLine()?.trim()?.removeSurrounding("\"")
         
         if (inputPath.isNullOrEmpty()) {
             println("Error: No file path provided")
@@ -225,8 +225,8 @@ fun main(args: Array<String>) {
         val app = StudentGradeCalculatorApp()
         app.run(inputPath, outputPath)
     } else {
-        val inputPath = args[0]
-        val outputPath = if (args.size > 1) args[1] else generateOutputPath(inputPath)
+        val inputPath = args[0].removeSurrounding("\"")
+        val outputPath = if (args.size > 1) args[1].removeSurrounding("\"") else generateOutputPath(inputPath)
         
         val app = StudentGradeCalculatorApp()
         app.run(inputPath, outputPath)
