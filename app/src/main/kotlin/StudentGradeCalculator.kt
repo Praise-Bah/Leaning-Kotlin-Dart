@@ -108,22 +108,24 @@ fun createSampleInput(filePath: String) {
 
 // ── Main ──
 fun main() {
-    val inputFile = "students_input.xlsx"
-    val outputFile = "students_output.xlsx"
-
-    // Create a sample input file if it doesn't exist
-    if (!File(inputFile).exists()) {
-        println("No input file found. Creating sample: $inputFile")
-        createSampleInput(inputFile)
-    }
-
     println("=== Student Grade Calculator ===\n")
 
+    // Ask user for the input file path
+    print("Enter the full path to the Excel file (e.g. C:\\Users\\You\\scores.xlsx): ")
+    val inputPath = readLine()?.trim()?.trim('"') ?: return println("No path entered.")
+
+    val inputFile = File(inputPath)
+    if (!inputFile.exists()) return println("File not found: $inputPath")
+    if (!inputFile.name.endsWith(".xlsx")) return println("Please provide a .xlsx file.")
+
+    // Build output path in the same folder as the input file
+    val outputFile = File(inputFile.parent, inputFile.nameWithoutExtension + "_graded.xlsx")
+
     // Read students from Excel
-    val students = readStudentsFromExcel(inputFile)
+    val students = readStudentsFromExcel(inputFile.absolutePath)
 
     // Display all students using higher-order function + lambda
-    println("All Students:")
+    println("\nAll Students:")
     processStudents(students) { println("  ${it.display()}") }
 
     // Filter & map using lambdas (from class slides)
@@ -138,7 +140,7 @@ fun main() {
 
     // Write results to output Excel file
     println()
-    writeStudentsToExcel(students, outputFile)
+    writeStudentsToExcel(students, outputFile.absolutePath)
 
-    println("\nDone! Open '$outputFile' in Excel to see the grades.")
+    println("\nDone! Open '${outputFile.absolutePath}' in Excel to see the grades.")
 }
